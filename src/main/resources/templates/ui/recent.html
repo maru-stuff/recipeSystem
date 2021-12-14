@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:insert="/ui/fragments/header.html"></header>
+<div>
+    <div th:each="recipeEntry : ${recipeList}">
+        <a th:href="'/beta/show/recipe/'+${recipeEntry.getId()}" th:text="${recipeEntry.getName()}"></a>
+    </div>
+</div>
+
+</body>
+</html>

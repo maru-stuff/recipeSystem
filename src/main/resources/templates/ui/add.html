@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add a Recipe to the system</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var nextRecord=1;
+        var ingredientPrefix="ingredientsWithAmounts";
+        var ingredientNamePostfix="name";
+        var ingredientAmountPostfix="amount";
+
+        $(".autocomplete1").autocomplete({
+            source:"http://localhost:8080/autocomplete/ingredients",
+            minlength:2
+        });
+
+        $("#addrow").click(function(){
+            $("#ingredients").find(".ingredient").eq(-1).after('<tr class="ingredient"><td><input class="autocomplete1 ui-autocomplete-input" id="' + ingredientPrefix + nextRecord + '.' + ingredientNamePostfix + '" name="' +ingredientPrefix+'['+nextRecord+'].'+ingredientNamePostfix+'" value="" autocomplete="off"/></td><td><input id="' + ingredientPrefix + nextRecord +'.'+ ingredientAmountPostfix + '" name="' + ingredientPrefix +'['+nextRecord+'].'+ ingredientAmountPostfix + '" value=""/></td></tr>');
+                $(".autocomplete1").autocomplete({
+            source:"http://localhost:8080/autocomplete/ingredients",
+            minlength:2
+        });
+            nextRecord=nextRecord+1;
+        });
+    });
+    </script>
+</head>
+<body>
+<header th:insert="/ui/fragments/header.html"></header>
+<div><form action="#" th:action="@{/beta/submit}" th:object="${recipe}" method="post">
+  <fieldset>
+    <input type="text" th:field="*{name}">
+    <label>Name of the recipe</label>
+    <input type="text" th:field="*{instructions}">
+    <label>How to cook the stuff</label>
+    <table>
+      <thead>
+      <tr>
+        <th>Ingredient Name</th>
+        <th>Amount</th>
+      </tr>
+      </thead>
+      <tbody id="ingredients">
+      <tr th:each="ingredient,itemStat :*{ingredientsWithAmounts}" class="ingredient">
+        <td><input class="autocomplete1" th:field="*{ingredientsWithAmounts[__${itemStat.index}__].name}"/></td>
+        <td><input th:field="*{ingredientsWithAmounts[__${itemStat.index}__].amount}"/></td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <button type="submit">Submit</button>
+  </fieldset>
+</form>
+  <button id="addrow">Add Ingredient</button></div>
+
+</body>
+</html>
