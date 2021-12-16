@@ -13,8 +13,8 @@ import java.util.List;
 public class Ingredient {
     private long id;
     private String name;
-    private double price;
-    private List<Recipe> recipes = new ArrayList<>();
+    private double price; //moniesy powinny być zawsze w Decimal lub BigDecimal ze względu na precyzję obliczeń
+    private List<Recipe> recipes = new ArrayList<>(); // Czemu akurat taka relacja? Czy będzie to czemuś służyć?
 
     public Ingredient(Long id,String name){
         this.id=id;

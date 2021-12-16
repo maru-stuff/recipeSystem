@@ -4,10 +4,11 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-@Mapper
+@Mapper //podziel ten interface na kilka w zależności od odpowiedzialności
 public interface DatabaseMapper {
 
     @Select("SELECT * FROM ingredients")
+    // tutaj IDE podpowiada, że somfing łent łong
     public List<Ingredient> findAllIngredients();
 
     @Select("SELECT DISTINCT Name FROM ingredients")
@@ -50,11 +51,11 @@ public interface DatabaseMapper {
 
     @Update("UPDATE recipes SET Name=#{name},Instructions=#{instructions},#{dateAdded})")
     public int updateRecipe(Recipe recipe);
-
+    // recipesingredientsamount <-- tego się nie da przeczytać :P https://www.sqlshack.com/learn-sql-naming-conventions/
     @Select("SELECT Name,Amount,Id FROM ingredients LEFT JOIN recipesingredientsamount ON ingredients.id = recipesingredientsamount.IngredientId WHERE recipesingredientsamount.RecipeId=#{id};")
     public List<IngredientWithAmount> getIngredientWithAmountListForRecipeId(Long id);
-
-
+//DUŻO WOLNEJ PRZESTRZENI
+//
 
     @Insert("INSERT INTO recipesingredientsamount(IngredientId,RecipeId,amount) VALUES (#{ingredientId},#{recipeId},#{amount})")
     @Options(keyProperty = "IngredientId,RecipeId")

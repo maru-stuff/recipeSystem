@@ -15,7 +15,7 @@ public class RecipeSystemService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private final DatabaseMapper databaseMapper;
+    private final DatabaseMapper databaseMapper; //no nie :P trochę zbyt wszystkorobiąca nazwa
 
     public Recipe getRecipeById(Long id){
         Recipe recipe = databaseMapper.findRecipeById(id);
@@ -25,6 +25,7 @@ public class RecipeSystemService {
     }
 
     public boolean saveRecipe(Recipe recipe) {
+        // dopuszczasz przepisy z samymi nullami :P?
         databaseMapper.insertRecipe(recipe);
         logger.info(recipe.toString());
         for (IngredientWithAmount ingredient : recipe.getIngredientsWithAmounts()) {

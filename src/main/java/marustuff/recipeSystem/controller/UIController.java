@@ -39,11 +39,11 @@ public class UIController {
         return uiService.getSearchView(model);
     }
 
-    @GetMapping("/add")
+    @GetMapping("/add")//add co? trochę mylące nazewnictwo
     public String getAdd(Model model){
         return uiService.getAddView(model);
     }
-
+    //to już raczej inny kontroler, rozdziel odpowiedzialności :)
     @GetMapping("/show/recipe/{id}")
     public String getRecipe(@PathVariable("id") Long id, Model model){
         return uiService.getRecipeShowView(model,id);

@@ -43,7 +43,7 @@ public class UIService {
     public String getIndexView(Model model) {
         return INDEX_VIEW;
     }
-
+//zbędny kod
     public String getRecipeAdd(Model model) {
         //////NOT IN USE
         Recipe recipe = new Recipe();
@@ -63,7 +63,7 @@ public class UIService {
         recipeSystemService.saveRecipe(recipe);
         return RECENT_VIEW;
     }
-
+//zbędny kod
     /*public String getBrowseView(Model model, int page) {
         return BROWSE_VIEW;
     }*/
@@ -74,6 +74,7 @@ public class UIService {
 
     public String getAddView(Model model) {
         Recipe recipe = new Recipe();
+        //zbędny kod
         //for (int i = 1; i <= 3; i++) {
             recipe.addIngredientWithAmount(new IngredientWithAmount());
         //}
@@ -84,9 +85,12 @@ public class UIService {
 
     public String getBrowseView(Model model, int pageNumber){
         int numberOfPages=recipeSystemService.getNumberOfRecipePages();
+        //będziesz tego używał?
         int previousPage;
+        //będziesz tego używał?
         int nextPage;
         List<Recipe> pageOfRecipes = databaseMapper.getNameIdRecipeByPage(RECIPE_PAGE_SIZE*pageNumber,pageNumber);
+        // nie lepiej byłoby to obsłużyć na frontendzie?
         if(numberOfPages>1){
             if(pageNumber==0){
                 model.addAttribute(NEXT_PAGE_ATTRIBUTE,nextPage=pageNumber+1);

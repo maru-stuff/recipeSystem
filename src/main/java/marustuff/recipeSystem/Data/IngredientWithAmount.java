@@ -7,9 +7,9 @@ import lombok.*;
 @ToString(callSuper = true)
 @NoArgsConstructor
 public class IngredientWithAmount extends Ingredient {
-    private String amount;
+    private String amount; //Może jakiś obiekt, który by zawierał jednostkę miary i ilość?
 
-    @Builder
+    @Builder //po co builder?
     public IngredientWithAmount(Long id,String name,String amount){
         super(id,name);
         this.amount = amount;

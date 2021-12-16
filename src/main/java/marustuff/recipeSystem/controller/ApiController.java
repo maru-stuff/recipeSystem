@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ApiController {
-    @Autowired
+    @Autowired // jeśli chodzi o @Autowired to powinno się raczej odchodzić od takiego wstrzykiwania, dużo lepiej jest przez konstruktor, ponieważ umożliwia to łatwe pisanie testów jednostkowych :)
     private final RecipeSystemService recipeSystemService;
 
     @Autowired

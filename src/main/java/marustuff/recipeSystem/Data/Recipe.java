@@ -15,7 +15,7 @@ public class Recipe {
     private long id;
     private String name;
     private String instructions;
-    private Date dateAdded;
+    private Date dateAdded; //createDate brzmi sensowniej
     private List<IngredientWithAmount> ingredientsWithAmounts = new ArrayList<>();
 
     public Recipe(long id,String name){
