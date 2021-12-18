@@ -1,9 +1,11 @@
 package marustuff.recipeSystem.Service;
 
 import lombok.RequiredArgsConstructor;
-import marustuff.recipeSystem.Data.DatabaseMapper;
+import marustuff.recipeSystem.Data.ResourceMapper;
 import marustuff.recipeSystem.Data.IngredientWithAmount;
 import marustuff.recipeSystem.Data.Recipe;
+import marustuff.recipeSystem.Data.ResourceMapper;
+import marustuff.recipeSystem.Data.SearchEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -27,16 +29,18 @@ public class UIService {
     private static final String NUMBER_OF_PAGES_ATTRIBUTE = "numberOfPages";
     private static final String NEXT_PAGE_ATTRIBUTE = "nextPage";
     private static final String PREVIOUS_PAGE_ATTRIBUTE = "previousPage";
+    private static final String SEARCH_ENTITY_ATTRIBUTE = "searchEntity";
+    private static final String FOUND_VIEW = "/ui/found";
 
     @Autowired
-    private final DatabaseMapper databaseMapper;
+    private final ResourceMapper resourceMapper;
 
     @Autowired
     private final RecipeSystemService recipeSystemService;
 
     public String getRecipeShowView(Model model, Long id) {
         Recipe recipe = recipeSystemService.getRecipeById(id);
-        model.addAttribute(RECIPE_ATTRIBUTE,recipe);
+        model.addAttribute(RECIPE_ATTRIBUTE, recipe);
         return SHOW_VIEW;
     }
 
@@ -44,62 +48,55 @@ public class UIService {
         return INDEX_VIEW;
     }
 
-    public String getRecipeAdd(Model model) {
-        //////NOT IN USE
-        Recipe recipe = new Recipe();
-        for (int i = 1; i <= 3; i++) {
-            recipe.addIngredientWithAmount(new IngredientWithAmount());
-        }
-        model.addAttribute(ADD_RECIPE_MODEL_ATTRIBUTE_NAME, recipe);
-        return ADD_VIEW;
-    }
-
     public String getRecentView(Model model) {
-        List<Recipe> recentRecipes = databaseMapper.getNameIdRecipe();
-        model.addAttribute(RECIPE_LIST_ATTRIBUTE,recentRecipes);
+        List<Recipe> recentRecipes = resourceMapper.getNameIdRecipe();
+        model.addAttribute(RECIPE_LIST_ATTRIBUTE, recentRecipes);
         return RECENT_VIEW;
     }
-    public String getSaveRecipe(Recipe recipe){
+
+    public String getSaveRecipe(Recipe recipe) {
         recipeSystemService.saveRecipe(recipe);
         return RECENT_VIEW;
     }
 
-    /*public String getBrowseView(Model model, int page) {
-        return BROWSE_VIEW;
-    }*/
-
     public String getSearchView(Model model) {
+        SearchEntity searchEntity = new SearchEntity();
+        model.addAttribute(SEARCH_ENTITY_ATTRIBUTE, searchEntity);
         return SEARCH_VIEW;
     }
 
     public String getAddView(Model model) {
         Recipe recipe = new Recipe();
-        //for (int i = 1; i <= 3; i++) {
-            recipe.addIngredientWithAmount(new IngredientWithAmount());
-        //}
+        recipe.addIngredientWithAmount(new IngredientWithAmount());
         model.addAttribute(ADD_RECIPE_MODEL_ATTRIBUTE_NAME, recipe);
         return ADD_VIEW;
 
     }
 
-    public String getBrowseView(Model model, int pageNumber){
-        int numberOfPages=recipeSystemService.getNumberOfRecipePages();
-        int previousPage;
-        int nextPage;
-        List<Recipe> pageOfRecipes = databaseMapper.getNameIdRecipeByPage(RECIPE_PAGE_SIZE*pageNumber,pageNumber);
-        if(numberOfPages>1){
-            if(pageNumber==0){
-                model.addAttribute(NEXT_PAGE_ATTRIBUTE,nextPage=pageNumber+1);
-            } else if(pageNumber+1==numberOfPages) {
-                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,previousPage=pageNumber-1);
-            }else{
-                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,previousPage=pageNumber-1);
-                model.addAttribute(NEXT_PAGE_ATTRIBUTE,nextPage=pageNumber+1);
+    public String getBrowseView(Model model, int pageNumber) {
+        int numberOfPages = recipeSystemService.getNumberOfRecipePages();
+        List<Recipe> pageOfRecipes = resourceMapper.getNameIdRecipeByPage(RECIPE_PAGE_SIZE * pageNumber, pageNumber);
+        if (numberOfPages > 1) {
+            if (pageNumber == 0) {
+                model.addAttribute(NEXT_PAGE_ATTRIBUTE,pageNumber + 1);
+            } else if (pageNumber + 1 == numberOfPages) {
+                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,pageNumber - 1);
+            } else {
+                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,pageNumber - 1);
+                model.addAttribute(NEXT_PAGE_ATTRIBUTE,pageNumber + 1);
             }
         }
-        model.addAttribute(RECIPE_LIST_ATTRIBUTE,pageOfRecipes);
-        model.addAttribute(PAGE_NUMBER_ATTRIBUTE,pageNumber);
-        model.addAttribute(NUMBER_OF_PAGES_ATTRIBUTE,numberOfPages);
+        model.addAttribute(RECIPE_LIST_ATTRIBUTE, pageOfRecipes);
+        model.addAttribute(PAGE_NUMBER_ATTRIBUTE, pageNumber);
+        model.addAttribute(NUMBER_OF_PAGES_ATTRIBUTE, numberOfPages);
         return BROWSE_VIEW;
+    }
+
+    public String getShowSearch(SearchEntity searchEntity, Model model) {
+        List<Recipe> foundRecipes = recipeSystemService.searchForRecipes(searchEntity);
+        model.addAttribute("recipeList", foundRecipes);
+        return FOUND_VIEW;
+
+
     }
 }

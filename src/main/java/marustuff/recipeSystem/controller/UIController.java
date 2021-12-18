@@ -2,6 +2,7 @@ package marustuff.recipeSystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import marustuff.recipeSystem.Data.Recipe;
+import marustuff.recipeSystem.Data.SearchEntity;
 import marustuff.recipeSystem.Service.UIService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/beta/")
+@RequestMapping("/")
 @RequiredArgsConstructor
 @Controller
 public class UIController {
@@ -20,38 +21,46 @@ public class UIController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("/")
-    public String getIndex(Model model){
+    public String getIndex(Model model) {
         return uiService.getIndexView(model);
     }
 
     @GetMapping("/recent")
-    public String getRecent(Model model){
+    public String getRecent(Model model) {
         return uiService.getRecentView(model);
     }
 
     @GetMapping("/browse/{page}")
-    public String getBrowse(@PathVariable("page")int page,Model model){
-        return uiService.getBrowseView(model,page);
+    public String getBrowse(@PathVariable("page") int page, Model model) {
+        return uiService.getBrowseView(model, page);
     }
 
     @GetMapping("/search")
-    public String getSearch(Model model){
+    public String getSearch(Model model) {
         return uiService.getSearchView(model);
     }
 
-    @GetMapping("/add")//add co? trochę mylące nazewnictwo
-    public String getAdd(Model model){
+    @PostMapping("/search")
+    public String performSearch(@ModelAttribute SearchEntity searchEntity, Model model) {
+        return uiService.getShowSearch(searchEntity, model);
+    }
+
+
+    @GetMapping("/add/recipe")
+    public String getAdd(Model model) {
         return uiService.getAddView(model);
     }
-    //to już raczej inny kontroler, rozdziel odpowiedzialności :)
+
     @GetMapping("/show/recipe/{id}")
-    public String getRecipe(@PathVariable("id") Long id, Model model){
-        return uiService.getRecipeShowView(model,id);
+    public String getRecipe(@PathVariable("id") Long id, Model model) {
+        return uiService.getRecipeShowView(model, id);
     }
+
     @PostMapping("/submit")
-    public String saveRecipe(@ModelAttribute Recipe recipe){
-        logger.info("saveRecipe"+ recipe.getIngredientsWithAmounts().toString());
+    public String saveRecipe(@ModelAttribute Recipe recipe) {
+        logger.info("saveRecipe" + recipe.getIngredientsWithAmounts().toString());
         return uiService.getSaveRecipe(recipe);
     }
+
 
 }

@@ -15,15 +15,15 @@ public class Recipe {
     private long id;
     private String name;
     private String instructions;
-    private Date dateAdded; //createDate brzmi sensowniej
+    private Date createDate;
     private List<IngredientWithAmount> ingredientsWithAmounts = new ArrayList<>();
 
-    public Recipe(long id,String name){
-        this.id=id;
-        this.name=name;
+    public Recipe(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public void addIngredientWithAmount(IngredientWithAmount ingredientWithAmount){
+    public void addIngredientWithAmount(IngredientWithAmount ingredientWithAmount) {
         this.ingredientsWithAmounts.add(ingredientWithAmount);
     }
 

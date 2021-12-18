@@ -8,12 +8,12 @@
 <header th:insert="/ui/fragments/header.html"></header>
 <div>
     <div th:each="recipeEntry : ${recipeList}">
-        <a th:href="'/beta/show/recipe/'+${recipeEntry.getId()}" th:text="${recipeEntry.getName()}"></a>
+        <a th:href="'/show/recipe/'+${recipeEntry.getId()}" th:text="${recipeEntry.getName()}"></a>
     </div>
     <div>
-        <a th:if="${previousPage!=null}" th:href="'/beta/browse/'+${previousPage}" th:text="${previousPage}"></a>
+        <a th:if="${previousPage!=null}" th:href="'/browse/'+${previousPage}" th:text="${previousPage}"></a>
         <p th:text="${pageNumber.toString()}"></p>
-        <a th:if="${nextPage!=null}" th:href="'/beta/browse/'+${nextPage}" th:text="${nextPage}"></a>
+        <a th:if="${nextPage!=null}" th:href="'/browse/'+${nextPage}" th:text="${nextPage}"></a>
         <p th:text="${numberOfPages.toString()}+' of Pages to browse'"></p>
     </div>
 </div>
