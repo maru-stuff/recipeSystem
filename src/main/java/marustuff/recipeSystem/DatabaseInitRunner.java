@@ -14,13 +14,13 @@ public class DatabaseInitRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (resourceMapper.isRecipesTablePresent().equals("0")) {
+        if (!resourceMapper.isRecipesTablePresent()) {
             resourceMapper.createRecipesTable();
         }
-        if (resourceMapper.isIngredientsTablePresent().equals("0")) {
+        if (!resourceMapper.isIngredientsTablePresent()) {
             resourceMapper.createIngredientsTable();
         }
-        if (resourceMapper.isRecipesIngredientsAmountsTablePresent().equals("0")) {
+        if (!resourceMapper.isRecipesIngredientsAmountsTablePresent()) {
             resourceMapper.createRecipesIngredientsAmountsTable();
         }
 

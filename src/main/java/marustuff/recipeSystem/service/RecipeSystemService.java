@@ -38,14 +38,16 @@ public class RecipeSystemService {
             recipeMapper.insertRecipe(recipe);
         logger.info(recipe.toString());
         for (IngredientWithAmount ingredient : recipe.getIngredientsWithAmounts()) {
-            logger.info("Status of search" + ingredientMapper.isIngredientPresentByName(ingredient.getName()));
+            boolean isIngredientPresent =ingredientMapper.isIngredientPresentByName(ingredient.getName());
+            logger.info("Status of search" + isIngredientPresent );
             if (ingredient != null && ingredient.getName() != null && !ingredient.getName().equals("")) {
-                if (!ingredientMapper.isIngredientPresentByName(ingredient.getName())) {
+                if (!isIngredientPresent) {
                     ingredientMapper.insertIngredient(ingredient);
                     logger.info(ingredient.toString());
                 } else {
-                    logger.info("get id by name" + ingredientMapper.getIngredientIdByName(ingredient.getName()));
-                    ingredient.setId(ingredientMapper.getIngredientIdByName(ingredient.getName()));
+                    long ingredientId=ingredientMapper.getIngredientIdByName(ingredient.getName());
+                    logger.info("get id by name" + ingredientId);
+                    ingredient.setId(ingredientId);
                     logger.info("Reused ingredient" + ingredient);
                 }
 

@@ -27,13 +27,13 @@ public interface ResourceMapper {
     public List<Recipe> searchByIngredient(String search);
 
     @Select("SELECT EXISTS(SELECT * FROM information_schema.tables WHERE table_schema='recipedb' AND table_name='recipes')")
-    public String isRecipesTablePresent();
+    public boolean isRecipesTablePresent();
 
     @Select("SELECT EXISTS(SELECT * FROM information_schema.tables WHERE table_schema='recipedb' AND table_name='ingredients')")
-    public String isIngredientsTablePresent();
+    public boolean isIngredientsTablePresent();
 
     @Select("SELECT EXISTS(SELECT * FROM information_schema.tables WHERE table_schema='recipedb' AND table_name='recipes_ingredients_amount')")
-    public String isRecipesIngredientsAmountsTablePresent();
+    public boolean isRecipesIngredientsAmountsTablePresent();
 
     @Update("CREATE TABLE `recipes` (\n" +
             "  `Id` int NOT NULL AUTO_INCREMENT,\n" +
