@@ -59,6 +59,7 @@ public class UIService {
         return RECENT_VIEW;
     }
 
+
     public String getSearchView(Model model) {
         SearchEntity searchEntity = new SearchEntity();
         model.addAttribute(SEARCH_ENTITY_ATTRIBUTE, searchEntity);
