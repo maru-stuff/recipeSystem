@@ -32,38 +32,21 @@ public class RecipeSystemService {
         return recipe;
     }
 
-    public boolean saveRecipe(Recipe recipe) {
-        if (recipe != null && recipe.getName() != null && recipe.getInstructions() != null) {
-            recipeMapper.insertRecipe(recipe);
-            logger.info(recipe.toString());
-            for (IngredientWithAmount ingredient : recipe.getIngredientsWithAmounts()) {
-                boolean isIngredientPresent = ingredientMapper.isIngredientPresentByName(ingredient.getName());
-                logger.info("Status of search" + isIngredientPresent);
-                if (ingredient.getName() != null && !ingredient.getName().equals("")) {
-                    if (!isIngredientPresent) {
-                        ingredientMapper.insertIngredient(ingredient);
-                        logger.info(ingredient.toString());
-                    } else {
-                        long ingredientId = ingredientMapper.getIngredientIdByName(ingredient.getName());
-                        logger.info("get id by name" + ingredientId);
-                        ingredient.setId(ingredientId);
-                        logger.info("Reused ingredient" + ingredient);
-                    }
-
-                }
-                try {
-                    resourceMapper.insertRecipeIngredientsAmount(ingredient.getId(), recipe.getId(), ingredient.getAmount());
-                } catch (Exception e) {
-                    logger.error(e.getMessage());
-                    return false;
-                }
-
+    public void saveRecipe(Recipe recipe) {
+        recipeMapper.insertRecipe(recipe);
+        logger.info(recipe.toString());
+        for (IngredientWithAmount ingredient : recipe.getIngredientsWithAmounts()) {
+            boolean isIngredientPresent = ingredientMapper.isIngredientPresentByName(ingredient.getName());
+            if (!isIngredientPresent) {
+                ingredientMapper.insertIngredient(ingredient);
+            } else {
+                long ingredientId = ingredientMapper.getIngredientIdByName(ingredient.getName());
+                ingredient.setId(ingredientId);
             }
-            logger.info("id receptury=" + recipe.getId());
-            return true;
-        } else {
-            return false;
+
+            resourceMapper.insertRecipeIngredientsAmount(ingredient.getId(), recipe.getId(), ingredient.getAmount());
         }
+        logger.info("id receptury=" + recipe.getId());
     }
 
     public int getNumberOfRecipePages() {
@@ -86,8 +69,6 @@ public class RecipeSystemService {
         }
         return foundRecipes;
     }
-
-
 }
 
 

@@ -21,6 +21,7 @@ public class UIService {
     private static final String SEARCH_VIEW = "/ui/search";
     private static final String SHOW_VIEW = "/ui/show";
     private static final String ADD_VIEW = "/ui/add";
+    private static final String ERROR_VIEW = "/ui/errorEmptyRecipe";
     private static final String RECIPE_LIST_ATTRIBUTE = "recipeList";
     private static final String RECIPE_ATTRIBUTE = "recipe";
     private static final String ADD_RECIPE_MODEL_ATTRIBUTE_NAME = "recipe";
@@ -71,7 +72,10 @@ public class UIService {
         recipe.addIngredientWithAmount(new IngredientWithAmount());
         model.addAttribute(ADD_RECIPE_MODEL_ATTRIBUTE_NAME, recipe);
         return ADD_VIEW;
+    }
 
+    public String getErrorView() {
+        return ERROR_VIEW;
     }
 
     public String getBrowseView(Model model, int pageNumber) {
@@ -79,12 +83,12 @@ public class UIService {
         List<Recipe> pageOfRecipes = resourceMapper.getNameIdRecipeByPage(RECIPE_PAGE_SIZE * pageNumber, pageNumber);
         if (numberOfPages > 1) {
             if (pageNumber == 0) {
-                model.addAttribute(NEXT_PAGE_ATTRIBUTE,pageNumber + 1);
+                model.addAttribute(NEXT_PAGE_ATTRIBUTE, pageNumber + 1);
             } else if (pageNumber + 1 == numberOfPages) {
-                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,pageNumber - 1);
+                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE, pageNumber - 1);
             } else {
-                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE,pageNumber - 1);
-                model.addAttribute(NEXT_PAGE_ATTRIBUTE,pageNumber + 1);
+                model.addAttribute(PREVIOUS_PAGE_ATTRIBUTE, pageNumber - 1);
+                model.addAttribute(NEXT_PAGE_ATTRIBUTE, pageNumber + 1);
             }
         }
         model.addAttribute(RECIPE_LIST_ATTRIBUTE, pageOfRecipes);
@@ -97,7 +101,5 @@ public class UIService {
         List<Recipe> foundRecipes = recipeSystemService.searchForRecipes(searchEntity);
         model.addAttribute("recipeList", foundRecipes);
         return FOUND_VIEW;
-
-
     }
 }

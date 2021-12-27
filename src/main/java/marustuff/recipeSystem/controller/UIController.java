@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import marustuff.recipeSystem.Data.Recipe;
 import marustuff.recipeSystem.Data.SearchEntity;
 import marustuff.recipeSystem.Service.UIService;
+import marustuff.recipeSystem.Service.RecipeValidatorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Controller
 public class UIController {
     @Autowired
     private final UIService uiService;
+
+    @Autowired
+    private final RecipeValidatorService recipeValidatorService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -45,7 +51,6 @@ public class UIController {
         return uiService.getShowSearch(searchEntity, model);
     }
 
-
     @GetMapping("/add/recipe")
     public String getAdd(Model model) {
         return uiService.getAddView(model);
@@ -58,9 +63,12 @@ public class UIController {
 
     @PostMapping("/submit")
     public String saveRecipe(@ModelAttribute Recipe recipe) {
-        logger.info("saveRecipe" + recipe.getIngredientsWithAmounts().toString());
-        return uiService.getSaveRecipe(recipe);
+        try {
+            recipeValidatorService.validateRecipe(recipe);
+            logger.info("saveRecipe" + recipe.getIngredientsWithAmounts().toString());
+            return uiService.getSaveRecipe(recipe);
+        } catch (ConstraintViolationException e) {
+            return uiService.getErrorView();
+        }
     }
-
-
 }
