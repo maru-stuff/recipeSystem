@@ -2,16 +2,14 @@ package marustuff.recipeSystem.Data;
 
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @AllArgsConstructor
 @ToString(callSuper = true)
 @NoArgsConstructor
 public class IngredientWithAmount extends Ingredient {
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String amount;
 
     public IngredientWithAmount(Long id, String name, String amount) {

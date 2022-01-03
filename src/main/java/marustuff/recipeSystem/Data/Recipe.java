@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class Recipe {
     private long id;
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String name;
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String instructions;
     private Date createDate;
-    @NotNull
     @NotEmpty
     private List<IngredientWithAmount> ingredientsWithAmounts = new ArrayList<>();
 
