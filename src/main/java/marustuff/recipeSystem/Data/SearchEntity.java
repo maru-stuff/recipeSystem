@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipesIngredientsAmount {
-    private Long ingredientId;
-    private Long recipeId;
-    private String Amount;
+public class SearchEntity {
+    private String searchByRecipeName = "";
+    private String searchByIngredient = "";
 }

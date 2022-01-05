@@ -11,9 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 public class RecipeSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RecipeSystemApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RecipeSystemApplication.class, args);
+    }
 
 }
 

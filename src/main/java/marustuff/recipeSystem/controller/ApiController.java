@@ -1,7 +1,7 @@
 package marustuff.recipeSystem.controller;
 
 import lombok.RequiredArgsConstructor;
-import marustuff.recipeSystem.Data.DatabaseMapper;
+import marustuff.recipeSystem.Data.IngredientMapper;
 import marustuff.recipeSystem.Service.RecipeSystemService;
 import marustuff.recipeSystem.Data.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,15 @@ public class ApiController {
     private final RecipeSystemService recipeSystemService;
 
     @Autowired
-    private final DatabaseMapper databaseMapper;
+    private final IngredientMapper ingredientMapper;
 
     @GetMapping("/recipe/{id}")
-    public Recipe getRecipe(@PathVariable("id") Long id){
+    public Recipe getRecipe(@PathVariable("id") Long id) {
         return recipeSystemService.getRecipeById(id);
     }
+
     @GetMapping("/autocomplete/ingredients")
-    public List<String> autoIngredients(){
-        return databaseMapper.findAllIngredientNames();
+    public List<String> autoIngredients() {
+        return ingredientMapper.findAllIngredientNames();
     }
 }

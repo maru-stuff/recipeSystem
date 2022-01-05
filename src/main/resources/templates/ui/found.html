@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Recent</title>
+    <title>Search</title>
 </head>
 <body>
 <header th:insert="/ui/fragments/header.html"></header>
@@ -11,6 +11,5 @@
         <a th:href="'/show/recipe/'+${recipeEntry.getId()}" th:text="${recipeEntry.getName()}"></a>
     </div>
 </div>
-
 </body>
 </html>

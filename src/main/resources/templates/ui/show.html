@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>View Recipe</title>
+    <meta charset="UTF-8">
+    <title>View Recipe</title>
 </head>
 <body>
 <header th:insert="/ui/fragments/header.html"></header>
 <div><p>View Recipe</p></div>
 <h1 th:text="${recipe.getName()}"></h1>
 <table>
-  <tr th:each="ingredient :${recipe.getIngredientsWithAmounts()}" class="ingredient">
-    <td th:text="${ingredient.getName()}"/></td>
-    <td th:text="${ingredient.getAmount()}"/></td>
-  </tr>
+    <tr th:each="ingredient :${recipe.getIngredientsWithAmounts()}" class="ingredient">
+        <td th:text="${ingredient.getName()}"/>
+        </td>
+        <td th:text="${ingredient.getAmount()}"/>
+        </td>
+    </tr>
 </table>
 <p th:text="${recipe.getInstructions()}"></p>
 </body>

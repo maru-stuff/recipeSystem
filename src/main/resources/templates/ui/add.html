@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Add a Recipe to the system</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-  <script type="text/javascript">
+    <meta charset="UTF-8">
+    <title>Add a Recipe to the system</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <title>Add a Recipe</title>
+    <script type="text/javascript">
     $(document).ready(function(){
         var nextRecord=1;
         var ingredientPrefix="ingredientsWithAmounts";
@@ -27,36 +28,40 @@
             nextRecord=nextRecord+1;
         });
     });
+
+
+
     </script>
 </head>
 <body>
 <header th:insert="/ui/fragments/header.html"></header>
-<div><form action="#" th:action="@{/beta/submit}" th:object="${recipe}" method="post">
-  <fieldset>
-    <input type="text" th:field="*{name}">
-    <label>Name of the recipe</label>
-    <input type="text" th:field="*{instructions}">
-    <label>How to cook the stuff</label>
-    <table>
-      <thead>
-      <tr>
-        <th>Ingredient Name</th>
-        <th>Amount</th>
-      </tr>
-      </thead>
-      <tbody id="ingredients">
-      <tr th:each="ingredient,itemStat :*{ingredientsWithAmounts}" class="ingredient">
-        <td><input class="autocomplete1" th:field="*{ingredientsWithAmounts[__${itemStat.index}__].name}"/></td>
-        <td><input th:field="*{ingredientsWithAmounts[__${itemStat.index}__].amount}"/></td>
-      </tr>
+<div>
+    <form action="#" th:action="@{/submit}" th:object="${recipe}" method="post" id="recipeForm">
+        <label>Name of the recipe</label>
+        <input type="text" th:field="*{name}">
+        <br>
+        <label>How to cook the stuff</label>
+        <br>
+        <textarea rows="20" cols="80" th:field="*{instructions}" form="recipeForm"></textarea>
+        <table>
+            <thead>
+            <tr>
+                <th>Ingredient Name</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody id="ingredients">
+            <tr th:each="ingredient,itemStat :*{ingredientsWithAmounts}" class="ingredient">
+                <td><input class="autocomplete1" th:field="*{ingredientsWithAmounts[__${itemStat.index}__].name}"/></td>
+                <td><input th:field="*{ingredientsWithAmounts[__${itemStat.index}__].amount}"/></td>
+            </tr>
 
-      </tbody>
-    </table>
-
-    <button type="submit">Submit</button>
-  </fieldset>
-</form>
-  <button id="addrow">Add Ingredient</button></div>
+            </tbody>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+    <button id="addrow">Add Ingredient</button>
+</div>
 
 </body>
 </html>
